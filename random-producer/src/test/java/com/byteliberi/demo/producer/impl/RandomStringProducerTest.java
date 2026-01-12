@@ -27,9 +27,6 @@ class RandomStringProducerTest {
     @Mock
     private StringProducer.StringListener mockListener1;
 
-    @Mock
-    private StringProducer.StringListener mockListener2;
-
     private RandomStringProducer producer;
 
     @BeforeEach

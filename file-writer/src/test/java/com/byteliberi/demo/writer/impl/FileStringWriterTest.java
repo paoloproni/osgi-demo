@@ -29,7 +29,7 @@ import static org.mockito.Mockito.*;
  */
 @ExtendWith(MockitoExtension.class)
 class FileStringWriterTest {
-    private Logger LOGGER = Logger.getLogger(FileStringWriterTest.class.getName());
+    private final static Logger LOGGER = Logger.getLogger(FileStringWriterTest.class.getName());
 
     @Mock
     private StringProducer mockStringProducer;
@@ -193,7 +193,7 @@ class FileStringWriterTest {
      * Helper method to override the output directory for testing.
      */
     private void overrideOutputDirectory() {
-        overrideOutputDirectory(tempDir.toString() + "/");
+        overrideOutputDirectory(tempDir + "/");
     }
 
     /**
