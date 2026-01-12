@@ -49,7 +49,7 @@ public class RandomStringProducer implements StringProducer {
         if (producerThread != null) {
             producerThread.interrupt();
             try {
-                producerThread.join(1000); // Wait up to 1 second for thread to finish
+                producerThread.join(1000); // Wait up to 1 second for the thread to finish
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
                 LOGGER.warning("Interrupted while waiting for producer thread to finish");
@@ -95,10 +95,10 @@ public class RandomStringProducer implements StringProducer {
                 Thread.sleep(waitTime);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
+                running = false;
                 break;
             } catch (Exception e) {
                 LOGGER.severe("Error in string generation loop: " + e.getMessage());
-                break;
             }
         }
         LOGGER.info("String generation loop terminated");

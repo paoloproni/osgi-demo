@@ -90,13 +90,14 @@ class FileStringWriterTest {
         String testString = "TestString456";
         fileWriter.onStringGenerated(testString);
 
-        List<Path> files = Files.list(tempDir).collect(Collectors.toList());
-        String filename = files.get(0).getFileName().toString();
-
-        // Verify filename pattern: string_YYYYMMDD_HHmmss_SSS.txt
-        Pattern filenamePattern = Pattern.compile("^string_\\d{8}_\\d{6}_\\d{3}\\.txt$");
-        assertTrue(filenamePattern.matcher(filename).matches(),
-                "Filename should match pattern string_YYYYMMDD_HHmmss_SSS.txt, but was: " + filename);
+        try(Stream<Path> fileListStream = Files.list(tempDir)) {
+            List<Path> files = fileListStream.collect(Collectors.toList());
+            String filename = files.get(0).getFileName().toString();
+            // Verify filename pattern: string_YYYYMMDD_HHmmss_SSS.txt
+            Pattern filenamePattern = Pattern.compile("^string_\\d{8}_\\d{6}_\\d{3}\\.txt$");
+            assertTrue(filenamePattern.matcher(filename).matches(),
+                    "Filename should match pattern string_YYYYMMDD_HHmmss_SSS.txt, but was: " + filename);
+        }
     }
 
     @Test
@@ -106,10 +107,11 @@ class FileStringWriterTest {
         String testString = "Hello OSGi World!";
         fileWriter.onStringGenerated(testString);
 
-        List<Path> files = Files.list(tempDir).collect(Collectors.toList());
-        String content = Files.readString(files.get(0), StandardCharsets.UTF_8);
-
-        assertEquals(testString, content, "File content should exactly match the generated string");
+        try(Stream<Path> fileListStream = Files.list(tempDir)) {
+            List<Path> files = fileListStream.collect(Collectors.toList());
+            String content = Files.readString(files.get(0), StandardCharsets.UTF_8);
+            assertEquals(testString, content, "File content should exactly match the generated string");
+        }
     }
 
     @Test
@@ -127,8 +129,10 @@ class FileStringWriterTest {
         assertTrue(Files.isDirectory(customDir), "Created path should be a directory");
 
         // Verify if the file was created in the custom directory
-        List<Path> files = Files.list(customDir).collect(Collectors.toList());
-        assertEquals(1, files.size(), "File should be created in the custom directory");
+        try(Stream<Path> fileListStream = Files.list(tempDir)) {
+            List<Path> files = fileListStream.collect(Collectors.toList());
+            assertEquals(1, files.size(), "File should be created in the custom directory");
+        }
     }
 
     @Test
@@ -156,13 +160,15 @@ class FileStringWriterTest {
         }
         fileWriter.onStringGenerated("String2");
 
-        List<Path> files = Files.list(tempDir).collect(Collectors.toList());
-        assertEquals(2, files.size(), "Two separate files should be created");
+        try(Stream<Path> fileListStream = Files.list(tempDir)) {
+            List<Path> files = fileListStream.collect(Collectors.toList());
+            assertEquals(2, files.size(), "Two separate files should be created");
 
-        // Verify different filenames
-        String filename1 = files.get(0).getFileName().toString();
-        String filename2 = files.get(1).getFileName().toString();
-        assertNotEquals(filename1, filename2, "Files should have different names");
+            // Verify different filenames
+            String filename1 = files.get(0).getFileName().toString();
+            String filename2 = files.get(1).getFileName().toString();
+            assertNotEquals(filename1, filename2, "Files should have different names");
+        }
     }
 
     @Test
