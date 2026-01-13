@@ -144,6 +144,11 @@ Download these additional bundles for OSGi Declarative Services support:
 ```bash
 cd bundle
 
+# Core OSGi dependencies (required)
+wget https://repo1.maven.org/maven2/org/osgi/org.osgi.util.promise/1.3.0/org.osgi.util.promise-1.3.0.jar
+wget https://repo1.maven.org/maven2/org/osgi/org.osgi.util.function/1.2.0/org.osgi.util.function-1.2.0.jar
+wget https://repo1.maven.org/maven2/org/osgi/org.osgi.service.component/1.5.1/org.osgi.service.component-1.5.1.jar
+
 # Declarative Services implementation (required)
 wget https://repo1.maven.org/maven2/org/apache/felix/org.apache.felix.scr/2.2.6/org.apache.felix.scr-2.2.6.jar
 
